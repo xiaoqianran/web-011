@@ -24,7 +24,7 @@
 
 ## 🚀 Pages 指向 Actions，Actions 部署到 Pages
 
-> **已配置** `.github/workflows/deploy.yml`，符合 GitHub Pages 官方推荐的 `actions/deploy-pages` 方案。
+> **已配置** `.github/workflows/deploy.yml`（本地已就绪；远程因 GitHub App `workflows` 权限限制，同步提供 `deploy-workflow.yml` 副本，内容完全一致，合并后请在 GitHub UI 将其重命名为 `.github/workflows/deploy.yml`），符合 GitHub Pages 官方推荐的 `actions/deploy-pages` 方案。
 
 ### 一次性设置（仓库管理员操作）
 
