@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STORYBOARD — 每一帧都是电影 · 唯美分镜长卷</title>
+  <meta name="description" content="像 PR 与 AE 那样呼吸的分镜页面 —  dissolution, whip-pan, light-leak, glitch · 灵感来自 Instagram 的唯美切换" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+SC:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- film grain overlay -->
+  <div class="grain"></div>
+  <!-- cursor -->
+  <div class="cursor" id="cursor"></div>
+  <!-- transition overlay -->
+  <div class="transition-layer" id="transitionLayer">
+    <div class="t-panel t-left"></div>
+    <div class="t-panel t-right"></div>
+    <div class="t-flare"></div>
+    <div class="t-text">CUT!</div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <span class="logo-mark">●</span>
+        <span class="logo-type">STORYBOARD</span>
+        <span class="logo-sub">PR × AE × INS</span>
+      </div>
+      <div class="nav-links">
+        <a href="#reel">REEL</a>
+        <a href="#transitions">转场</a>
+        <a href="#timeline">时间线</a>
+        <a href="#deploy">部署</a>
+      </div>
+      <button class="nav-cta" id="ctaPlay">▶ 预览成片</button>
+    </div>
+    <div class="nav-progress"><div class="nav-progress-bar" id="progressBar"></div></div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&q=80&auto=format&fit=crop" alt="hero">
+      <div class="hero-vignette"></div>
+      <div class="hero-gradient"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-line"></span>
+        <span>INSPIRATION FROM INSTAGRAM · CRAFTED IN PR & AE</span>
+        <span class="eyebrow-line"></span>
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-title-row">每一帧<span class="hero-italic">都是</span></span>
+        <span class="hero-title-row hero-title-large">电影 <em>。</em></span>
+        <span class="hero-sub">唯美分镜 · 无缝转场 · 呼吸感叙事</span>
+      </h1>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="meta-k">DURATION</span>
+          <span class="meta-v">00:47 — 24FPS</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="meta-k">TRANSITIONS</span>
+          <span class="meta-v">8 CINEMATIC</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="meta-k">RATIO</span>
+          <span class="meta-v">2.39 : 1</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-pr">
+      <div class="pr-track">
+        <div class="pr-label">PR 时间轴</div>
+        <div class="pr-clips" id="prClips">
+          <div class="pr-clip c1"><span>开场溶解</span><small>00:00</small></div>
+          <div class="pr-clip c2"><span>推轨接近</span><small>00:07</small></div>
+          <div class="pr-clip c3"><span>遮罩转场</span><small>00:15</small></div>
+          <div class="pr-clip c4"><span>光泄呼吸</span><small>00:23</small></div>
+          <div class="pr-clip c5"><span>旋转定格</span><small>00:31</small></div>
+          <div class="pr-clip c6"><span>余韵淡出</span><small>00:39</small></div>
+        </div>
+        <div class="pr-playhead" id="prPlayhead"></div>
+      </div>
+      <div class="pr-controls">
+        <button class="pr-btn" id="prPlay">▶</button>
+        <span class="pr-time" id="prTime">00:00 / 00:47</span>
+        <span class="pr-fps">● REC</span>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <span>向下滚动 · 进入分镜</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- CONCEPT -->
+  <section class="concept" id="reel">
+    <div class="section-label">
+      <span class="label-num">01</span>
+      <span class="label-text">CONCEPT / 概念</span>
+      <span class="label-line"></span>
+    </div>
+    <div class="concept-grid">
+      <div class="concept-main">
+        <h2>像在 <i>剪辑台</i> 上<br>翻阅一本相册</h2>
+        <p>这不是普通的滚动页面。这是一条用 <strong>Premiere 的时间线</strong> 思维、用 <strong>After Effects 的缓动</strong> 调校、用 <strong>Instagram 的审美</strong> 过滤的分镜长卷。每一屏都是一次转场，每一次滚动都是一次剪辑。</p>
+        <div class="concept-stats">
+          <div><b>0.4s</b><span>平均转场时长</span></div>
+          <div><b>Expo</b><span>缓动曲线</span></div>
+          <div><b>24fps</b><span>电影感帧率</span></div>
+        </div>
+      </div>
+      <div class="concept-cards">
+        <div class="c-card">
+          <div class="c-card-num">景别</div>
+          <h3>SCENE SCALE</h3>
+          <p>全景交代环境，特写捕捉情绪。中景留白，像 INS 九宫格的呼吸。</p>
+          <div class="c-card-tags"><span>Wide</span><span>Medium</span><span>Close-up</span></div>
+        </div>
+        <div class="c-card">
+          <div class="c-card-num">运镜</div>
+          <h3>CAMERA MOVE</h3>
+          <p>缓慢推轨、轻微手持、视差滚动。让静态页面拥有摄影机的重量。</p>
+          <div class="c-card-tags"><span>Dolly</span><span>Parallax</span><span>Handheld</span></div>
+        </div>
+        <div class="c-card">
+          <div class="c-card-num">转场</div>
+          <h3>TRANSITION</h3>
+          <p>溶解、遮罩、光泄、故障。PR 预设般精准，AE 合成般细腻。</p>
+          <div class="c-card-tags"><span>Dissolve</span><span>Wipe</span><span>Leak</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSITION GALLERY -->
+  <section class="transitions" id="transitions">
+    <div class="section-label">
+      <span class="label-num">02</span>
+      <span class="label-text">TRANSITIONS / 转场实验室</span>
+      <span class="label-line"></span>
+      <span class="label-hint">点击卡片 · 预览全屏转场</span>
+    </div>
+    <div class="trans-grid">
+      <button class="trans-card" data-trans="dissolve">
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> dissolve</span></div>
+        <div class="trans-info"><h4>溶解 Dissolve</h4><p>0.6s · Opacity 0→1 · 最温柔的告别</p><span class="trans-tag">经典 · 文艺</span></div>
+      </button>
+      <button class="trans-card" data-trans="push">
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> push</span></div>
+        <div class="trans-info"><h4>推拉 Push</h4><p>0.5s · Translate X · Whip Pan 模拟</p><span class="trans-tag">动感 · 叙事</span></div>
+      </button>
+      <button class="trans-card" data-trans="zoom">
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> zoom</span></div>
+        <div class="trans-info"><h4>缩放 Zoom</h4><p>0.7s · Scale 1→1.15 · 呼吸感</p><span class="trans-tag">沉浸 · 电影</span></div>
+      </button>
+      <button class="trans-card" data-trans="wipe">
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> wipe</span></div>
+        <div class="trans-info"><h4>遮罩 Wipe</h4><p>0.4s · Clip-path · 几何切割</p><span class="trans-tag">现代 · 极简</span></div>
+      </button>
+      <button class="trans-card" data-trans="leak">
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> light leak</span></div>
+        <div class="trans-info"><h4>光泄 Light Leak</h4><p>0.8s · Flare + Blend · 胶片灼烧</p><span class="trans-tag">复古 · 暖调</span></div>
+      </button>
+      <button class="trans-card" data-trans="glitch">
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> glitch</span></div>
+        <div class="trans-info"><h4>故障 Glitch</h4><p>0.3s · RGB Split · 数字撕裂</p><span class="trans-tag">先锋 · 锐利</span></div>
+      </button>
+      <button class="trans-card" data-trans="spin">
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> spin</span></div>
+        <div class="trans-info"><h4>旋转 Spin</h4><p>0.6s · Rotate + Scale · 漩涡入画</p><span class="trans-tag">梦幻 · 流动</span></div>
+      </button>
+      <button class="trans-card" data-trans="blinds">
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> blinds</span></div>
+        <div class="trans-info"><h4>百叶窗 Blinds</h4><p>0.5s · Stagger · 节奏切割</p><span class="trans-tag">节奏 · 时尚</span></div>
+      </button>
+    </div>
+  </section>
+
+  <!-- FILM STRIP -->
+  <div class="film-strip">
+    <div class="film-track" id="filmTrack">
+      <span>STORYBOARD — FRAME 01 — DISSOLVE — FRAME 02 — PUSH — FRAME 03 — WIPE — FRAME 04 — LIGHT LEAK — FRAME 05 — GLITCH — FRAME 06 — FADE OUT — </span>
+      <span>STORYBOARD — FRAME 01 — DISSOLVE — FRAME 02 — PUSH — FRAME 03 — WIPE — FRAME 04 — LIGHT LEAK — FRAME 05 — GLITCH — FRAME 06 — FADE OUT — </span>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <section class="timeline" id="timeline">
+    <div class="section-label sticky-label">
+      <span class="label-num">03</span>
+      <span class="label-text">STORY TIMELINE / 分镜时间线</span>
+      <span class="label-line"></span>
+    </div>
+
+    <!-- 01 -->
+    <div class="shot">
+      <div class="shot-media">
+        <div class="shot-frame">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&q=80&auto=format&fit=crop" alt="shot 1">
+          <div class="shot-grain"></div>
+          <div class="shot-info"><span>SHOT 01</span><span>00:00 — 00:07</span></div>
+        </div>
+      </div>
+      <div class="shot-text">
+        <span class="shot-kicker">ACT I — 开场 · ESTABLISH</span>
+        <h3>雾色初醒 <span>溶解</span></h3>
+        <p>黎明 5:47，湖面像一块未曝光的胶片。镜头从全景缓慢推近，溶解转场让晨雾自然晕开。PR 中我们会把透明度曲线拉成 S 型，AE 里再叠一层 2% 的噪点。</p>
+        <div class="shot-meta">
+          <span><b>镜头</b> 35mm · f/2.8</span>
+          <span><b>转场</b> Dissolve 0.6s Expo</span>
+          <span><b>色调</b> Cold Morning #E8EEF2</span>
+        </div>
+        <div class="shot-audio">
+          <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
+          <span>环境声 · 湖面 · -18db</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="shot reverse">
+      <div class="shot-media">
+        <div class="shot-frame">
+          <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&q=80&auto=format&fit=crop" alt="shot 2">
+          <div class="shot-grain"></div>
+          <div class="shot-info"><span>SHOT 02</span><span>00:07 — 00:15</span></div>
+        </div>
+      </div>
+      <div class="shot-text">
+        <span class="shot-kicker">ACT I — 接近 · APPROACH</span>
+        <h3>风的轨迹 <span>推轨</span></h3>
+        <p>一条小径切进画面，Whip Pan 的速度被刻意放慢 40%。视差让前景的草叶比远山移动更快，Instagram 上最受欢迎的那种“假移动”，其实是 AE 摄像机 5% 的位移。</p>
+        <div class="shot-meta">
+          <span><b>镜头</b> 50mm · 手持</span>
+          <span><b>转场</b> Push 0.5s</span>
+          <span><b>色调</b> Warm Haze #F5E6D3</span>
+        </div>
+        <div class="shot-audio">
+          <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
+          <span>风声 · 立体声 · -14db</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="shot">
+      <div class="shot-media">
+        <div class="shot-frame">
+          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&q=80&auto=format&fit=crop" alt="shot 3">
+          <div class="shot-grain"></div>
+          <div class="shot-info"><span>SHOT 03</span><span>00:15 — 00:23</span></div>
+        </div>
+      </div>
+      <div class="shot-text">
+        <span class="shot-kicker">ACT II — 碰撞 · COLLISION</span>
+        <h3>几何切割 <span>遮罩</span></h3>
+        <p>湖面与天空被一条精准的斜线分割。Wipe 转场像一把剪刀，干脆利落。PR 的遮罩羽化 12px，边缘留一点点毛糙，才不至于太数字。</p>
+        <div class="shot-meta">
+          <span><b>镜头</b> 24mm · 广角</span>
+          <span><b>转场</b> Wipe 0.4s 45°</span>
+          <span><b>色调</b> Teal & Orange</span>
+        </div>
+        <div class="shot-audio">
+          <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
+          <span>心跳 · 80 BPM</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="shot reverse">
+      <div class="shot-media">
+        <div class="shot-frame">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80&auto=format&fit=crop" alt="shot 4">
+          <div class="shot-grain"></div>
+          <div class="shot-info"><span>SHOT 04</span><span>00:23 — 00:31</span></div>
+        </div>
+      </div>
+      <div class="shot-text">
+        <span class="shot-kicker">ACT II — 呼吸 · BREATHE</span>
+        <h3>光的泄漏 <span>灼烧</span></h3>
+        <p>太阳终于穿透云层，光泄从画面右上角涌入，整个画面过曝 1 档再回落。AE 的 Optical Flares 叠加，混合模式选 Screen，不透明度 60% 刚刚好。</p>
+        <div class="shot-meta">
+          <span><b>镜头</b> 85mm · 逆光</span>
+          <span><b>转场</b> Light Leak 0.8s</span>
+          <span><b>色调</b> Golden Hour #FFD6A5</span>
+        </div>
+        <div class="shot-audio">
+          <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
+          <span>呼吸声 · 混响</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="shot">
+      <div class="shot-media">
+        <div class="shot-frame">
+          <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=80&auto=format&fit=crop" alt="shot 5">
+          <div class="shot-grain"></div>
+          <div class="shot-info"><span>SHOT 05</span><span>00:31 — 00:39</span></div>
+        </div>
+      </div>
+      <div class="shot-text">
+        <span class="shot-kicker">ACT III — 定格 · HOLD</span>
+        <h3>森林的注视 <span>旋转定格</span></h3>
+        <p>旋转 3 度，缩放 1.07，时间被拉长。INS 上那种“照片会动”的魔法，其实是 Ken Burns 的变体。我们在此处加入轻微的故障闪烁，提醒观众：这是回忆。</p>
+        <div class="shot-meta">
+          <span><b>镜头</b> 35mm · 三脚架</span>
+          <span><b>转场</b> Spin + Glitch 0.3s</span>
+          <span><b>色调</b> Deep Forest #2D4A3E</span>
+        </div>
+        <div class="shot-audio">
+          <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
+          <span>静默 · -inf</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="shot reverse">
+      <div class="shot-media">
+        <div class="shot-frame">
+          <img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=1200&q=80&auto=format&fit=crop" alt="shot 6">
+          <div class="shot-grain"></div>
+          <div class="shot-info"><span>SHOT 06</span><span>00:39 — 00:47</span></div>
+        </div>
+      </div>
+      <div class="shot-text">
+        <span class="shot-kicker">ACT III — 余韵 · AFTERGLOW</span>
+        <h3>瀑布之下 <span>淡出</span></h3>
+        <p>水流是唯一的运动，画面其余部分渐渐褪成黑白，最后只剩水流的一抹蓝。Fade to Black，留 1.2 秒黑场。这是电影的礼貌，也是 INS 故事结束时的留白。</p>
+        <div class="shot-meta">
+          <span><b>镜头</b> 70mm · 慢快门</span>
+          <span><b>转场</b> Fade 1.2s</span>
+          <span><b>色调</b> Mono + Blue Accent</span>
+        </div>
+        <div class="shot-audio">
+          <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
+          <span>水流 · 渐弱</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM GRID -->
+  <section class="insta">
+    <div class="section-label">
+      <span class="label-num">04</span>
+      <span class="label-text">INSTAGRAM GRID / 灵感九宫格</span>
+      <span class="label-line"></span>
+      <span class="label-hint">悬停查看转场 · 点击放大</span>
+    </div>
+    <div class="insta-grid">
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Zoom 慢推</span><small>0.7s scale</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Dissolve 溶解</span><small>0.6s fade</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Wipe 遮罩</span><small>0.4s clip</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Push 推镜</span><small>0.5s pan</small></div></div>
+      <div class="insta-item insta-center"><div class="insta-center-inner"><span>9:16</span><b>INS<br>VERTICAL</b><small>像刷 Reels 一样<br>刷这个页面</small><div class="insta-play">◎</div></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Leak 光泄</span><small>0.8s flare</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Parallax 视差</span><small>scroll</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Glitch 故障</span><small>0.3s rgb</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Fade 淡出</span><small>1.2s black</small></div></div>
+    </div>
+    <div class="insta-caption">
+      <p>“好看的转场不是炫技，是让观众忘记自己在看转场。” — 像 Instagram 那样，<br>让技术隐形，让情绪显形。</p>
+    </div>
+  </section>
+
+  <!-- DEPLOY -->
+  <section class="deploy" id="deploy">
+    <div class="section-label">
+      <span class="label-num">05</span>
+      <span class="label-text">PAGES → ACTIONS → PAGES / 自动部署</span>
+      <span class="label-line"></span>
+    </div>
+    <div class="deploy-grid">
+      <div class="deploy-text">
+        <h2>Pages 指向 Actions<br>然后用 <i>Actions</i> 部署到 Pages</h2>
+        <p>这个页面的每一帧，都通过 GitHub Actions 自动构建并发布到 GitHub Pages。推送即上映，像 PR 的自动渲染队列。</p>
+        <div class="deploy-steps">
+          <div class="step"><span class="step-num">1</span><div><b>git push</b><small>推送到 main 分支</small></div><span class="step-arrow">→</span></div>
+          <div class="step"><span class="step-num">2</span><div><b>Actions 构建</b><small>npm ci · vite build</small></div><span class="step-arrow">→</span></div>
+          <div class="step"><span class="step-num">3</span><div><b>Pages 发布</b><small>deploy-pages · 全球 CDN</small></div><span class="step-live">● LIVE</span></div>
+        </div>
+        <div class="deploy-code">
+          <div class="code-head">
+            <span></span><span></span><span></span>
+            <b>.github/workflows/deploy.yml</b>
+            <span class="code-badge">已配置 ✓</span>
+          </div>
+<pre><code>on:
+  push: { branches: [main] }
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: ./dist }
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment</code></pre>
+        </div>
+        <div class="deploy-actions">
+          <a class="btn btn-primary" href="https://github.com/xiaoqianran/web-011/actions" target="_blank">查看 Actions 运行</a>
+          <a class="btn btn-ghost" href="https://github.com/xiaoqianran/web-011" target="_blank">查看源码</a>
+          <span class="deploy-hint">Settings → Pages → Source: <b>GitHub Actions</b></span>
+        </div>
+      </div>
+      <div class="deploy-visual">
+        <div class="visual-card">
+          <div class="visual-header">
+            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            <span class="visual-title">STORYBOARD DEPLOY PIPELINE</span>
+            <span class="visual-status">● Deploying...</span>
+          </div>
+          <div class="visual-body">
+            <div class="visual-node active">
+              <div class="node-icon">◐</div>
+              <div class="node-text"><b>Checkout</b><span>拉取分镜素材</span></div>
+              <div class="node-time">0.8s</div>
+            </div>
+            <div class="visual-line active"></div>
+            <div class="visual-node active">
+              <div class="node-icon">⬢</div>
+              <div class="node-text"><b>Build</b><span>vite build · 转场编译</span></div>
+              <div class="node-time">12.4s</div>
+            </div>
+            <div class="visual-line active"></div>
+            <div class="visual-node active">
+              <div class="node-icon">⬣</div>
+              <div class="node-text"><b>Upload Artifact</b><span>打包 847 KB</span></div>
+              <div class="node-time">2.1s</div>
+            </div>
+            <div class="visual-line animate"></div>
+            <div class="visual-node pulse">
+              <div class="node-icon">⬔</div>
+              <div class="node-text"><b>Deploy to Pages</b><span>全球边缘节点分发</span></div>
+              <div class="node-time">→ LIVE</div>
+            </div>
+          </div>
+          <div class="visual-url">
+            <span>↗</span>
+            <span>https://xiaoqianran.github.io/web-011/</span>
+            <span class="copy">复制</span>
+          </div>
+          <div class="visual-preview">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80&auto=format&fit=crop" alt="">
+            <div class="preview-overlay"><span>STORYBOARD · LIVE PREVIEW</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER CTA -->
+  <section class="cta">
+    <div class="cta-inner">
+      <div class="cta-eyebrow">READY TO CUT?</div>
+      <h2>把你的故事<br><i>剪</i>进这个长卷</h2>
+      <p>Fork 这个仓库，替换 <code>images</code> 与文案，推送即自动部署。<br>Pages 已指向 Actions，剩下的只有你的分镜。</p>
+      <div class="cta-btns">
+        <a class="btn btn-primary large" href="https://github.com/xiaoqianran/web-011/fork" target="_blank">一键 Fork · 开始创作</a>
+        <button class="btn btn-ghost large" id="ctaCopy">复制部署命令</button>
+      </div>
+      <div class="cta-meta">
+        <span>MIT 开源</span><span>·</span><span>Vite + Vanilla</span><span>·</span><span>GSAP · Lenis</span><span>·</span><span>适配 Pages</span>
+      </div>
+    </div>
+    <div class="cta-bg-text">STORYBOARD</div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>© 2025 STORYBOARD — Crafted like PR & AE, inspired by Instagram.</div>
+      <div>Pages → Actions → Pages · 自动部署已就绪</div>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <img src="" alt="" id="lightboxImg">
+    <span class="lightbox-close">×</span>
+    <div class="lightbox-cap" id="lightboxCap"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
