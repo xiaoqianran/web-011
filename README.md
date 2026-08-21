@@ -24,13 +24,12 @@
 
 ## 🚀 Pages 指向 Actions，Actions 部署到 Pages
 
-> **已配置** `.github/workflows/deploy.yml`（本地已就绪；远程因 GitHub App `workflows` 权限限制，同步提供 `deploy-workflow.yml` 副本，内容完全一致，合并后请在 GitHub UI 将其重命名为 `.github/workflows/deploy.yml`），符合 GitHub Pages 官方推荐的 `actions/deploy-pages` 方案。
+> **已配置** `.github/workflows/deploy.yml`，符合 GitHub Pages 官方推荐的 `actions/deploy-pages` 方案；仓库 **Settings → Pages → Source 已选择 GitHub Actions**。根目录保留一份同步副本 `deploy-workflow.yml` 作为备份（内容完全一致）。
 
-### 一次性设置（仓库管理员操作）
+### 设置状态
 
-1. 打开仓库 **Settings → Pages**
-2. **Build and deployment → Source** 选择 **GitHub Actions**（不是 `Deploy from a branch`）
-3. 保存
+1. ✅ 工作流在 `.github/workflows/deploy.yml`（随仓库提交，无需手动上传）
+2. ✅ **Build and deployment → Source** = **GitHub Actions**
 
 > 之后任何推送到 `main` 的提交都会触发自动构建与发布。
 
@@ -41,9 +40,13 @@ on:
   push: { branches: [main] }
   workflow_dispatch:
 
+permissions:  # contents: read / pages: write / id-token: write(最小权限)
+concurrency:  # group: "pages", 串行部署不取消
+
 jobs:
-  build:  # checkout → setup-node 20 → npm ci → npm run build → upload-pages-artifact(dist)
-  deploy: # deploy-pages → 全球 CDN 生效
+  build:  # checkout → setup-node 20(带 npm cache) → npm ci → build
+          # → 产物校验(dist/index.html) → configure-pages@v5 → upload-pages-artifact@v4
+  deploy: # deploy-pages@v4 → 全球 CDN 生效
 ```
 
 本地验证：
@@ -93,6 +96,7 @@ npm run dev
 - **GSAP 3 + ScrollTrigger** — 滚动视差与时间线
 - **Lenis** — 丝滑滚动
 - **Unsplash** — 高质量静帧（可一键替换为你自己的照片）
+- **A11y** — `prefers-reduced-motion` 全面降级、Lightbox 焦点管理、ARIA 标注、图片懒加载 + OG 分享元数据
 
 ---
 

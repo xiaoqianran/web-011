@@ -4,7 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>STORYBOARD — 每一帧都是电影 · 唯美分镜长卷</title>
-  <meta name="description" content="像 PR 与 AE 那样呼吸的分镜页面 —  dissolution, whip-pan, light-leak, glitch · 灵感来自 Instagram 的唯美切换" />
+  <meta name="description" content="像 Premiere 与 After Effects 一样呼吸的分镜长卷:8 种电影感转场、6 幕故事时间线、Instagram 式九宫格 — Vite + GSAP + Lenis,推送 main 即自动部署到 GitHub Pages。" />
+  <meta name="theme-color" content="#0a0a0b" />
+  <meta property="og:title" content="STORYBOARD — 每一帧都是电影" />
+  <meta property="og:description" content="8 种电影感转场 × 6 幕故事时间线:Pages → Actions → Pages 自动部署的分镜长卷。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://xiaoqianran.github.io/web-011/" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&q=80&auto=format&fit=crop" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+SC:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -14,10 +20,10 @@
   <div class="grain"></div>
   <!-- cursor -->
   <div class="cursor" id="cursor"></div>
-  <!-- transition overlay -->
-  <div class="transition-layer" id="transitionLayer">
-    <div class="t-panel t-left"></div>
-    <div class="t-panel t-right"></div>
+  <!-- transition overlay(纯装饰,不拦截交互) -->
+  <div class="transition-layer" id="transitionLayer" aria-hidden="true">
+    <div class="t-cover"></div>
+    <div class="t-slats"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i></div>
     <div class="t-flare"></div>
     <div class="t-text">CUT!</div>
   </div>
@@ -44,7 +50,7 @@
   <!-- HERO -->
   <section class="hero" id="hero">
     <div class="hero-bg">
-      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&q=80&auto=format&fit=crop" alt="hero">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&q=80&auto=format&fit=crop" alt="湖面晨雾" fetchpriority="high" decoding="async">
       <div class="hero-vignette"></div>
       <div class="hero-gradient"></div>
     </div>
@@ -151,35 +157,35 @@
     </div>
     <div class="trans-grid">
       <button class="trans-card" data-trans="dissolve">
-        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> dissolve</span></div>
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="trans-overlay"></div><span class="trans-play">dissolve</span></div>
         <div class="trans-info"><h4>溶解 Dissolve</h4><p>0.6s · Opacity 0→1 · 最温柔的告别</p><span class="trans-tag">经典 · 文艺</span></div>
       </button>
       <button class="trans-card" data-trans="push">
-        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> push</span></div>
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="trans-overlay"></div><span class="trans-play">push</span></div>
         <div class="trans-info"><h4>推拉 Push</h4><p>0.5s · Translate X · Whip Pan 模拟</p><span class="trans-tag">动感 · 叙事</span></div>
       </button>
       <button class="trans-card" data-trans="zoom">
-        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> zoom</span></div>
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="trans-overlay"></div><span class="trans-play">zoom</span></div>
         <div class="trans-info"><h4>缩放 Zoom</h4><p>0.7s · Scale 1→1.15 · 呼吸感</p><span class="trans-tag">沉浸 · 电影</span></div>
       </button>
       <button class="trans-card" data-trans="wipe">
-        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> wipe</span></div>
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="trans-overlay"></div><span class="trans-play">wipe</span></div>
         <div class="trans-info"><h4>遮罩 Wipe</h4><p>0.4s · Clip-path · 几何切割</p><span class="trans-tag">现代 · 极简</span></div>
       </button>
       <button class="trans-card" data-trans="leak">
-        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> light leak</span></div>
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="trans-overlay"></div><span class="trans-play">light leak</span></div>
         <div class="trans-info"><h4>光泄 Light Leak</h4><p>0.8s · Flare + Blend · 胶片灼烧</p><span class="trans-tag">复古 · 暖调</span></div>
       </button>
       <button class="trans-card" data-trans="glitch">
-        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> glitch</span></div>
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="trans-overlay"></div><span class="trans-play">glitch</span></div>
         <div class="trans-info"><h4>故障 Glitch</h4><p>0.3s · RGB Split · 数字撕裂</p><span class="trans-tag">先锋 · 锐利</span></div>
       </button>
       <button class="trans-card" data-trans="spin">
-        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> spin</span></div>
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="trans-overlay"></div><span class="trans-play">spin</span></div>
         <div class="trans-info"><h4>旋转 Spin</h4><p>0.6s · Rotate + Scale · 漩涡入画</p><span class="trans-tag">梦幻 · 流动</span></div>
       </button>
       <button class="trans-card" data-trans="blinds">
-        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600&q=80&auto=format&fit=crop" alt=""><div class="trans-overlay"></div><span class="trans-play"> blinds</span></div>
+        <div class="trans-thumb"><img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="trans-overlay"></div><span class="trans-play">blinds</span></div>
         <div class="trans-info"><h4>百叶窗 Blinds</h4><p>0.5s · Stagger · 节奏切割</p><span class="trans-tag">节奏 · 时尚</span></div>
       </button>
     </div>
@@ -205,7 +211,7 @@
     <div class="shot">
       <div class="shot-media">
         <div class="shot-frame">
-          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&q=80&auto=format&fit=crop" alt="shot 1">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&q=80&auto=format&fit=crop" alt="shot 1" loading="lazy" decoding="async">
           <div class="shot-grain"></div>
           <div class="shot-info"><span>SHOT 01</span><span>00:00 — 00:07</span></div>
         </div>
@@ -230,7 +236,7 @@
     <div class="shot reverse">
       <div class="shot-media">
         <div class="shot-frame">
-          <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&q=80&auto=format&fit=crop" alt="shot 2">
+          <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&q=80&auto=format&fit=crop" alt="shot 2" loading="lazy" decoding="async">
           <div class="shot-grain"></div>
           <div class="shot-info"><span>SHOT 02</span><span>00:07 — 00:15</span></div>
         </div>
@@ -255,7 +261,7 @@
     <div class="shot">
       <div class="shot-media">
         <div class="shot-frame">
-          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&q=80&auto=format&fit=crop" alt="shot 3">
+          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&q=80&auto=format&fit=crop" alt="shot 3" loading="lazy" decoding="async">
           <div class="shot-grain"></div>
           <div class="shot-info"><span>SHOT 03</span><span>00:15 — 00:23</span></div>
         </div>
@@ -280,7 +286,7 @@
     <div class="shot reverse">
       <div class="shot-media">
         <div class="shot-frame">
-          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80&auto=format&fit=crop" alt="shot 4">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80&auto=format&fit=crop" alt="shot 4" loading="lazy" decoding="async">
           <div class="shot-grain"></div>
           <div class="shot-info"><span>SHOT 04</span><span>00:23 — 00:31</span></div>
         </div>
@@ -305,7 +311,7 @@
     <div class="shot">
       <div class="shot-media">
         <div class="shot-frame">
-          <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=80&auto=format&fit=crop" alt="shot 5">
+          <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=80&auto=format&fit=crop" alt="shot 5" loading="lazy" decoding="async">
           <div class="shot-grain"></div>
           <div class="shot-info"><span>SHOT 05</span><span>00:31 — 00:39</span></div>
         </div>
@@ -330,7 +336,7 @@
     <div class="shot reverse">
       <div class="shot-media">
         <div class="shot-frame">
-          <img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=1200&q=80&auto=format&fit=crop" alt="shot 6">
+          <img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=1200&q=80&auto=format&fit=crop" alt="shot 6" loading="lazy" decoding="async">
           <div class="shot-grain"></div>
           <div class="shot-info"><span>SHOT 06</span><span>00:39 — 00:47</span></div>
         </div>
@@ -361,15 +367,15 @@
       <span class="label-hint">悬停查看转场 · 点击放大</span>
     </div>
     <div class="insta-grid">
-      <div class="insta-item"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Zoom 慢推</span><small>0.7s scale</small></div></div>
-      <div class="insta-item"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Dissolve 溶解</span><small>0.6s fade</small></div></div>
-      <div class="insta-item"><img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Wipe 遮罩</span><small>0.4s clip</small></div></div>
-      <div class="insta-item"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Push 推镜</span><small>0.5s pan</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="insta-overlay"><span>Zoom 慢推</span><small>0.7s scale</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="insta-overlay"><span>Dissolve 溶解</span><small>0.6s fade</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="insta-overlay"><span>Wipe 遮罩</span><small>0.4s clip</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="insta-overlay"><span>Push 推镜</span><small>0.5s pan</small></div></div>
       <div class="insta-item insta-center"><div class="insta-center-inner"><span>9:16</span><b>INS<br>VERTICAL</b><small>像刷 Reels 一样<br>刷这个页面</small><div class="insta-play">◎</div></div></div>
-      <div class="insta-item"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Leak 光泄</span><small>0.8s flare</small></div></div>
-      <div class="insta-item"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Parallax 视差</span><small>scroll</small></div></div>
-      <div class="insta-item"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Glitch 故障</span><small>0.3s rgb</small></div></div>
-      <div class="insta-item"><img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600&q=80&auto=format&fit=crop" alt=""><div class="insta-overlay"><span>Fade 淡出</span><small>1.2s black</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="insta-overlay"><span>Leak 光泄</span><small>0.8s flare</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="insta-overlay"><span>Parallax 视差</span><small>scroll</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="insta-overlay"><span>Glitch 故障</span><small>0.3s rgb</small></div></div>
+      <div class="insta-item"><img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async"><div class="insta-overlay"><span>Fade 淡出</span><small>1.2s black</small></div></div>
     </div>
     <div class="insta-caption">
       <p>“好看的转场不是炫技，是让观众忘记自己在看转场。” — 像 Instagram 那样，<br>让技术隐形，让情绪显形。</p>
@@ -407,16 +413,23 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20, cache: npm }
       - run: npm ci
       - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
+      - run: test -f dist/index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
         with: { path: ./dist }
 
   deploy:
@@ -473,7 +486,7 @@ jobs:
             <span class="copy">复制</span>
           </div>
           <div class="visual-preview">
-            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80&auto=format&fit=crop" alt="">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async">
             <div class="preview-overlay"><span>STORYBOARD · LIVE PREVIEW</span></div>
           </div>
         </div>
@@ -500,15 +513,15 @@ jobs:
 
   <footer class="footer">
     <div class="footer-inner">
-      <div>© 2025 STORYBOARD — Crafted like PR & AE, inspired by Instagram.</div>
+      <div>© 2026 STORYBOARD — Crafted like PR &amp; AE, inspired by Instagram.</div>
       <div>Pages → Actions → Pages · 自动部署已就绪</div>
     </div>
   </footer>
 
   <!-- Lightbox -->
-  <div class="lightbox" id="lightbox">
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="分镜图片预览">
     <img src="" alt="" id="lightboxImg">
-    <span class="lightbox-close">×</span>
+    <span class="lightbox-close" aria-label="关闭预览">×</span>
     <div class="lightbox-cap" id="lightboxCap"></div>
   </div>
 

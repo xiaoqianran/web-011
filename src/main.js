@@ -1,10 +1,13 @@
 import "./style.css";
 
+// 动效偏好:用户开启"减少动态效果"时全面降级
+const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
 // Lenis smooth scroll
 let lenis;
 try{
   const Lenis = window.Lenis;
-  if(Lenis){
+  if(Lenis && !reduceMotion){
     lenis = new Lenis({ duration:1.1, easing:(t)=>Math.min(1,1.001-Math.pow(2,-10*t)), smoothWheel:true });
     function raf(time){ lenis.raf(time); requestAnimationFrame(raf) }
     requestAnimationFrame(raf);
@@ -25,18 +28,20 @@ if(gsap && ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 // Cursor
 const cursor = document.getElementById('cursor');
 let mouseX=0, mouseY=0, curX=0, curY=0;
-window.addEventListener('mousemove', e=>{ mouseX=e.clientX; mouseY=e.clientY; });
-function animateCursor(){
-  curX += (mouseX - curX)*0.15;
-  curY += (mouseY - curY)*0.15;
-  if(cursor){ cursor.style.left=curX+'px'; cursor.style.top=curY+'px'; }
-  requestAnimationFrame(animateCursor);
+if(!reduceMotion){
+  window.addEventListener('mousemove', e=>{ mouseX=e.clientX; mouseY=e.clientY; });
+  function animateCursor(){
+    curX += (mouseX - curX)*0.15;
+    curY += (mouseY - curY)*0.15;
+    if(cursor){ cursor.style.left=curX+'px'; cursor.style.top=curY+'px'; }
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('a, button, .insta-item, .trans-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>cursor?.classList.add('hover'));
+    el.addEventListener('mouseleave',()=>cursor?.classList.remove('hover'));
+  });
 }
-animateCursor();
-document.querySelectorAll('a, button, .insta-item, .trans-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>cursor?.classList.add('hover'));
-  el.addEventListener('mouseleave',()=>cursor?.classList.remove('hover'));
-});
 
 // Progress bar
 const progressBar = document.getElementById('progressBar');
@@ -52,7 +57,7 @@ updateProgress();
 const prPlayhead = document.getElementById('prPlayhead');
 const prTime = document.getElementById('prTime');
 const prPlayBtn = document.getElementById('prPlay');
-let prPlaying = true;
+let prPlaying = !reduceMotion;
 let prStart = Date.now();
 let prDuration = 47000;
 function loopPR(){
@@ -75,19 +80,31 @@ function loopPR(){
   }
   requestAnimationFrame(loopPR);
 }
-loopPR();
+if(prPlaying) loopPR();
 if(prPlayBtn){
+  const setPRBtn = ()=>{
+    prPlayBtn.textContent = prPlaying ? '❚❚' : '▶';
+    prPlayBtn.setAttribute('aria-pressed', String(prPlaying));
+    prPlayBtn.setAttribute('aria-label', prPlaying ? '暂停 PR 时间轴' : '播放 PR 时间轴');
+  };
+  setPRBtn();
   prPlayBtn.addEventListener('click',()=>{
     prPlaying = !prPlaying;
-    prPlayBtn.textContent = prPlaying ? '❚❚' : '▶';
-    if(prPlaying){ prStart = Date.now() - (parseInt(prPlayhead?.style.left||0)/100*prDuration); loopPR(); }
+    if(prPlaying){
+      // 按播放头当前位置恢复播放,而不是跳回 0
+      const track = document.querySelector('.pr-track');
+      const w = (track?.clientWidth || 0) - 24;
+      const left = parseFloat(prPlayhead?.style.left || '12') || 12;
+      const pct = w > 0 ? (left - 12) / w : 0;
+      prStart = Date.now() - pct * prDuration;
+      loopPR();
+    }
+    setPRBtn();
   });
-  // set initial icon to pause
-  prPlayBtn.textContent = '❚❚';
 }
 
 // Scroll reveals with GSAP / fallback
-if(gsap && ScrollTrigger){
+if(gsap && ScrollTrigger && !reduceMotion){
   gsap.utils.toArray('.shot').forEach((shot, i)=>{
     const img = shot.querySelector('img');
     const text = shot.querySelector('.shot-text');
@@ -136,34 +153,26 @@ if(gsap && ScrollTrigger){
   document.querySelectorAll('.shot, .trans-card, .insta-item').forEach(el=>{ el.classList.add('reveal'); io.observe(el); });
 }
 
-// Transition lab
+// Transition lab — 8 种转场各自独立的 CSS 动画,时长与文案一致
 const layer = document.getElementById('transitionLayer');
 const transCards = document.querySelectorAll('.trans-card');
 let transitioning = false;
+const TRANS_NAMES = {
+  dissolve:'DISSOLVE', push:'PUSH', zoom:'ZOOM', wipe:'WIPE', leak:'LIGHT LEAK', glitch:'GLITCH', spin:'SPIN', blinds:'BLINDS'
+};
+const TRANS_TOTAL = { dissolve:900, push:800, zoom:1000, wipe:650, leak:1200, glitch:500, spin:900, blinds:1150 };
 
 function playTransition(type){
-  if(transitioning) return;
+  if(transitioning || !layer) return;
   transitioning = true;
-  layer.className = 'transition-layer active ' + type;
-  // set text
+  const t = reduceMotion ? 'dissolve' : type; // 减少动态时退化为温和淡入淡出
+  layer.className = 'transition-layer active ' + t;
   const tText = layer.querySelector('.t-text');
-  const names = {
-    dissolve:'DISSOLVE', push:'PUSH', zoom:'ZOOM', wipe:'WIPE', leak:'LIGHT LEAK', glitch:'GLITCH', spin:'SPIN', blinds:'BLINDS'
-  };
-  if(tText) tText.textContent = names[type] || type.toUpperCase();
-
-  // special styles
-  layer.style.transition = '';
-
-  // remove after 1.4s then out
+  if(tText) tText.textContent = TRANS_NAMES[type] || type.toUpperCase();
   setTimeout(()=>{
-    layer.classList.add('out');
-    setTimeout(()=>{
-      layer.className = 'transition-layer';
-      layer.classList.remove('out');
-      transitioning=false;
-    }, 600);
-  }, 900);
+    layer.className = 'transition-layer';
+    transitioning = false;
+  }, reduceMotion ? 500 : (TRANS_TOTAL[type] || 900));
 }
 
 transCards.forEach(card=>{
@@ -180,8 +189,22 @@ document.getElementById('ctaPlay')?.addEventListener('click',()=>{
   const t = types[Math.floor(Math.random()*types.length)];
   playTransition(t);
   setTimeout(()=>{
-    document.getElementById('timeline')?.scrollIntoView({behavior:'smooth'});
+    const target = document.getElementById('timeline');
+    if(lenis){ lenis.scrollTo(target, {offset:-64}); }
+    else { target?.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth'}); }
   }, 700);
+});
+
+// 导航锚点:接入 Lenis 平滑滚动(避免原生 jump 与 Lenis 状态脱节)
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click', e=>{
+    const href = a.getAttribute('href');
+    if(href && href.startsWith('#') && lenis){
+      e.preventDefault();
+      const el = document.querySelector(href);
+      if(el) lenis.scrollTo(el, {offset:-64});
+    }
+  });
 });
 document.getElementById('ctaCopy')?.addEventListener('click', async()=>{
   const cmd = `git clone https://github.com/xiaoqianran/web-011.git\ncd web-011\nnpm i\nnpm run dev\n# 推送到 main 即自动部署到 Pages`;
@@ -192,29 +215,40 @@ document.getElementById('ctaCopy')?.addEventListener('click', async()=>{
   setTimeout(()=>btn.textContent=old, 1600);
 });
 
-// Lightbox for insta
+// Lightbox for insta(带焦点管理)
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
 const lightboxCap = document.getElementById('lightboxCap');
+let lightboxFocus = null;
+function openLightbox(src, cap){
+  lightboxFocus = document.activeElement;
+  lightboxImg.src = src;
+  lightboxCap.textContent = cap;
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  lightbox.querySelector('.lightbox-close')?.focus();
+}
+function closeLightbox(){
+  if(!lightbox || !lightbox.classList.contains('open')) return;
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+  lightboxFocus?.focus?.();
+}
 document.querySelectorAll('.insta-item img').forEach(img=>{
   const item = img.closest('.insta-item');
   if(item.classList.contains('insta-center')) return;
   item.addEventListener('click',()=>{
     const overlay = item.querySelector('.insta-overlay span');
-    lightboxImg.src = img.src.replace('w=600','w=1600');
-    lightboxCap.textContent = overlay ? overlay.textContent : '';
-    lightbox.classList.add('open');
-    document.body.style.overflow='hidden';
+    openLightbox(img.src.replace('w=600','w=1600'), overlay ? overlay.textContent : '');
   });
 });
 lightbox?.addEventListener('click', e=>{
   if(e.target===lightbox || e.target.classList.contains('lightbox-close') || e.target===lightboxImg){
-    lightbox.classList.remove('open');
-    document.body.style.overflow='';
+    closeLightbox();
   }
 });
 document.addEventListener('keydown', e=>{
-  if(e.key==='Escape') { lightbox.classList.remove('open'); document.body.style.overflow=''; }
+  if(e.key==='Escape') closeLightbox();
 });
 
 // Deploy visual url copy

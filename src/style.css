@@ -22,6 +22,7 @@ body{
 }
 a{ color:inherit; text-decoration:none }
 button{ font:inherit; cursor:pointer }
+:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; border-radius:6px }
 img{ display:block; max-width:100% }
 
 /* grain */
@@ -39,28 +40,88 @@ img{ display:block; max-width:100% }
 @media(hover:hover){ .cursor{ display:block } }
 .cursor.hover{ width:56px; height:56px; background:rgba(201,169,106,0.15); border-color:var(--gold) }
 
-/* transition layer */
+/* transition layer — 纯装饰层,始终不拦截点击 */
 .transition-layer{
-  position:fixed; inset:0; z-index:9000; pointer-events:none; display:flex; overflow:hidden; opacity:0; visibility:hidden;
+  position:fixed; inset:0; z-index:9000; pointer-events:none; overflow:hidden;
+  opacity:0; visibility:hidden;
 }
-.transition-layer.active{ opacity:1; visibility:visible; pointer-events:auto }
-.t-panel{ flex:1; background:var(--bg); transform:translateY(100%); transition:transform .6s cubic-bezier(0.8,0,0.2,1) }
-.t-panel.t-right{ transition-delay:.08s }
-.transition-layer.active .t-panel{ transform:translateY(0) }
-.transition-layer.out .t-panel{ transform:translateY(-100%) }
+.transition-layer.active{ opacity:1; visibility:visible }
+.t-cover{ position:absolute; inset:0; background:var(--bg); will-change:transform,opacity }
+.t-slats{ position:absolute; inset:0; display:flex; opacity:0 }
+.t-slats i{ flex:1; background:var(--bg); transform:scaleY(0); will-change:transform }
 .t-flare{
-  position:absolute; inset:0; background:radial-gradient(600px 400px at 70% 30%, rgba(255,214,165,0.9), transparent 70%), radial-gradient(500px 500px at 20% 80%, rgba(201,169,106,0.6), transparent 60%);
-  opacity:0; mix-blend-mode:screen; transition:opacity .4s;
+  position:absolute; inset:0; opacity:0; mix-blend-mode:screen;
+  background:radial-gradient(600px 400px at 70% 30%, rgba(255,214,165,0.9), transparent 70%), radial-gradient(500px 500px at 20% 80%, rgba(201,169,106,0.6), transparent 60%);
 }
-.transition-layer.leak .t-flare{ opacity:1 }
 .t-text{
-  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%) scale(0.8);
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
   font-family:"Cormorant Garamond",serif; font-size: clamp(40px,10vw,120px); font-style:italic; font-weight:300; letter-spacing:-0.04em;
-  color:var(--paper); opacity:0; transition:all .5s;
+  color:var(--paper); opacity:0; transition:opacity .35s;
 }
-.transition-layer.active .t-text{ opacity:1; transform:translate(-50%,-50%) scale(1) }
-.transition-layer.glitch .t-panel{ background:#0a0a0b; }
-.transition-layer.glitch .t-text{ text-shadow: 2px 0 #ff0040, -2px 0 #00ffff; animation:glitchText .2s infinite }
+.transition-layer.active .t-text{ opacity:1 }
+
+/* 溶解 Dissolve — 0.9s 柔和过黑 */
+.transition-layer.active.dissolve .t-cover{ animation:tDissolve .9s ease both }
+@keyframes tDissolve{ 0%{opacity:0} 38%{opacity:1} 62%{opacity:1} 100%{opacity:0} }
+
+/* 推拉 Push — 0.8s 水平扫过 */
+.transition-layer.active.push .t-cover{ animation:tPush .8s cubic-bezier(.72,0,.28,1) both }
+@keyframes tPush{
+  0%{ transform:translateX(102%) }
+  45%{ transform:translateX(0) }
+  55%{ transform:translateX(0) }
+  100%{ transform:translateX(-102%) }
+}
+
+/* 缩放 Zoom — 1s 中心开合 */
+.transition-layer.active.zoom .t-cover{ animation:tZoom 1s cubic-bezier(.65,0,.35,1) both }
+@keyframes tZoom{
+  0%{ transform:scale(0); opacity:1 }
+  40%{ transform:scale(1); opacity:1 }
+  62%{ transform:scale(1.04); opacity:1 }
+  100%{ transform:scale(1.5); opacity:0 }
+}
+
+/* 遮罩 Wipe — 0.65s 斜向裁切扫过 */
+.transition-layer.wipe .t-cover{ inset:-12%; clip-path:polygon(3% 0, 100% 0, 94% 100%, 0 100%) }
+.transition-layer.active.wipe .t-cover{ animation:tWipe .65s cubic-bezier(.8,0,.2,1) both }
+@keyframes tWipe{
+  0%{ transform:translateX(-108%) }
+  45%{ transform:translateX(0) }
+  55%{ transform:translateX(0) }
+  100%{ transform:translateX(108%) }
+}
+
+/* 光泄 Light Leak — 1.2s 暖调灼烧,无遮罩 */
+.transition-layer.active.leak .t-flare{ animation:tLeak 1.2s ease both }
+@keyframes tLeak{ 0%{opacity:0} 35%{opacity:1} 65%{opacity:1} 100%{opacity:0} }
+
+/* 故障 Glitch — 0.5s 信号撕裂 */
+.transition-layer.active.glitch .t-cover{
+  background-image:repeating-linear-gradient(0deg, transparent 0 22px, rgba(255,0,64,.18) 22px 24px, rgba(0,255,255,.14) 24px 26px);
+  animation:tGlitch .5s steps(1,end) both;
+}
+@keyframes tGlitch{
+  0%{opacity:0} 10%{opacity:1} 24%{opacity:0} 34%{opacity:1} 48%{opacity:1} 56%{opacity:0} 66%{opacity:1} 78%{opacity:1} 100%{opacity:0}
+}
+.transition-layer.active.glitch .t-text{ text-shadow:2px 0 #ff0040, -2px 0 #00ffff; animation:glitchText .2s infinite }
+
+/* 旋转 Spin — 0.9s 漩涡入画 */
+.transition-layer.active.spin .t-cover{ animation:tSpin .9s cubic-bezier(.65,0,.35,1) both }
+@keyframes tSpin{
+  0%{ transform:rotate(-38deg) scale(1.9); opacity:1 }
+  42%{ transform:rotate(0) scale(1); opacity:1 }
+  58%{ transform:rotate(0) scale(1); opacity:1 }
+  100%{ transform:rotate(38deg) scale(1.9); opacity:0 }
+}
+
+/* 百叶窗 Blinds — 0.8s + 逐条 stagger */
+.transition-layer.active.blinds .t-slats{ opacity:1 }
+.transition-layer.active.blinds .t-slats i{
+  animation:tBlinds .8s cubic-bezier(.7,0,.3,1) both;
+  animation-delay:calc(var(--i) * 45ms);
+}
+@keyframes tBlinds{ 0%{transform:scaleY(0)} 42%{transform:scaleY(1)} 58%{transform:scaleY(1)} 100%{transform:scaleY(0)} }
 
 /* NAV */
 .nav{
@@ -364,6 +425,25 @@ img{ display:block; max-width:100% }
 /* reveal */
 .reveal{ opacity:0; transform:translateY(18px); transition:all .7s cubic-bezier(0.16,1,0.3,1) }
 .reveal.in{ opacity:1; transform:translateY(0) }
+
+/* 减少动态偏好 — 全面降级为温和淡入淡出 */
+@media (prefers-reduced-motion: reduce){
+  .film-track, .audio-bar, .scroll-line, .visual-node.pulse, .visual-line.animate{ animation:none !important }
+  .pr-fps::before, .visual-status::before{ animation:none }
+  .cursor{ display:none !important }
+  .grain{ opacity:0.02 }
+  .trans-card:hover{ transform:none }
+  .shot:hover img{ transform:none }
+  .lightbox img{ transform:none; transition:none }
+  .transition-layer.active.dissolve .t-cover{ animation-duration:.5s }
+  .transition-layer.active.push .t-cover,
+  .transition-layer.active.zoom .t-cover,
+  .transition-layer.active.wipe .t-cover,
+  .transition-layer.active.spin .t-cover,
+  .transition-layer.active.glitch .t-cover,
+  .transition-layer.active.blinds .t-cover{ animation:tDissolve .5s ease both !important }
+  .transition-layer.active.blinds .t-slats{ opacity:0 }
+}
 
 /* responsive */
 @media(max-width: 1100px){
