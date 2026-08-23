@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>STORYBOARD — 每一帧都是电影 · 唯美分镜长卷</title>
-  <meta name="description" content="像 Premiere 与 After Effects 一样呼吸的分镜长卷:8 种电影感转场、6 幕故事时间线、Instagram 式九宫格 — Vite + GSAP + Lenis,推送 main 即自动部署到 GitHub Pages。" />
+  <meta name="description" content="像 Premiere 与 After Effects 一样呼吸的分镜长卷：8 种电影感转场、6 幕故事时间线、Instagram 式九宫格。" />
   <meta name="theme-color" content="#0a0a0b" />
   <meta property="og:title" content="STORYBOARD — 每一帧都是电影" />
-  <meta property="og:description" content="8 种电影感转场 × 6 幕故事时间线:Pages → Actions → Pages 自动部署的分镜长卷。" />
+  <meta property="og:description" content="8 种电影感转场 × 6 幕故事时间线：像剪辑台一样浏览一卷电影感故事。" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://xiaoqianran.github.io/web-011/" />
   <meta property="og:image" content="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&q=80&auto=format&fit=crop" />
@@ -40,7 +40,6 @@
         <a href="#reel">REEL</a>
         <a href="#transitions">转场</a>
         <a href="#timeline">时间线</a>
-        <a href="#deploy">部署</a>
       </div>
       <button class="nav-cta" id="ctaPlay">▶ 预览成片</button>
     </div>
@@ -382,130 +381,18 @@
     </div>
   </section>
 
-  <!-- DEPLOY -->
-  <section class="deploy" id="deploy">
-    <div class="section-label">
-      <span class="label-num">05</span>
-      <span class="label-text">PAGES → ACTIONS → PAGES / 自动部署</span>
-      <span class="label-line"></span>
-    </div>
-    <div class="deploy-grid">
-      <div class="deploy-text">
-        <h2>Pages 指向 Actions<br>然后用 <i>Actions</i> 部署到 Pages</h2>
-        <p>这个页面的每一帧，都通过 GitHub Actions 自动构建并发布到 GitHub Pages。推送即上映，像 PR 的自动渲染队列。</p>
-        <div class="deploy-steps">
-          <div class="step"><span class="step-num">1</span><div><b>git push</b><small>推送到 main 分支</small></div><span class="step-arrow">→</span></div>
-          <div class="step"><span class="step-num">2</span><div><b>Actions 构建</b><small>npm ci · vite build</small></div><span class="step-arrow">→</span></div>
-          <div class="step"><span class="step-num">3</span><div><b>Pages 发布</b><small>deploy-pages · 全球 CDN</small></div><span class="step-live">● LIVE</span></div>
-        </div>
-        <div class="deploy-code">
-          <div class="code-head">
-            <span></span><span></span><span></span>
-            <b>.github/workflows/deploy.yml</b>
-            <span class="code-badge">已配置 ✓</span>
-          </div>
-<pre><code>on:
-  push: { branches: [main] }
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: npm }
-      - run: npm ci
-      - run: npm run build
-      - run: test -f dist/index.html
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v4
-        with: { path: ./dist }
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/deploy-pages@v4
-        id: deployment</code></pre>
-        </div>
-        <div class="deploy-actions">
-          <a class="btn btn-primary" href="https://github.com/xiaoqianran/web-011/actions" target="_blank">查看 Actions 运行</a>
-          <a class="btn btn-ghost" href="https://github.com/xiaoqianran/web-011" target="_blank">查看源码</a>
-          <span class="deploy-hint">Settings → Pages → Source: <b>GitHub Actions</b></span>
-        </div>
-      </div>
-      <div class="deploy-visual">
-        <div class="visual-card">
-          <div class="visual-header">
-            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-            <span class="visual-title">STORYBOARD DEPLOY PIPELINE</span>
-            <span class="visual-status">● Deploying...</span>
-          </div>
-          <div class="visual-body">
-            <div class="visual-node active">
-              <div class="node-icon">◐</div>
-              <div class="node-text"><b>Checkout</b><span>拉取分镜素材</span></div>
-              <div class="node-time">0.8s</div>
-            </div>
-            <div class="visual-line active"></div>
-            <div class="visual-node active">
-              <div class="node-icon">⬢</div>
-              <div class="node-text"><b>Build</b><span>vite build · 转场编译</span></div>
-              <div class="node-time">12.4s</div>
-            </div>
-            <div class="visual-line active"></div>
-            <div class="visual-node active">
-              <div class="node-icon">⬣</div>
-              <div class="node-text"><b>Upload Artifact</b><span>打包 847 KB</span></div>
-              <div class="node-time">2.1s</div>
-            </div>
-            <div class="visual-line animate"></div>
-            <div class="visual-node pulse">
-              <div class="node-icon">⬔</div>
-              <div class="node-text"><b>Deploy to Pages</b><span>全球边缘节点分发</span></div>
-              <div class="node-time">→ LIVE</div>
-            </div>
-          </div>
-          <div class="visual-url">
-            <span>↗</span>
-            <span>https://xiaoqianran.github.io/web-011/</span>
-            <span class="copy">复制</span>
-          </div>
-          <div class="visual-preview">
-            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80&auto=format&fit=crop" alt="" loading="lazy" decoding="async">
-            <div class="preview-overlay"><span>STORYBOARD · LIVE PREVIEW</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- FOOTER CTA -->
   <section class="cta">
     <div class="cta-inner">
-      <div class="cta-eyebrow">READY TO CUT?</div>
-      <h2>把你的故事<br><i>剪</i>进这个长卷</h2>
-      <p>Fork 这个仓库，替换 <code>images</code> 与文案，推送即自动部署。<br>Pages 已指向 Actions，剩下的只有你的分镜。</p>
+      <div class="cta-eyebrow">ONE MORE TAKE?</div>
+      <h2>故事停在最后一帧<br><i>余韵</i>还在继续</h2>
+      <p>从开场重新进入这卷分镜，或者回到时间线，重看每一次呼吸与转场。</p>
       <div class="cta-btns">
-        <a class="btn btn-primary large" href="https://github.com/xiaoqianran/web-011/fork" target="_blank">一键 Fork · 开始创作</a>
-        <button class="btn btn-ghost large" id="ctaCopy">复制部署命令</button>
+        <a class="btn btn-primary large" href="#hero">↑ 回到开场</a>
+        <a class="btn btn-ghost large" href="#timeline">重看时间线</a>
       </div>
       <div class="cta-meta">
-        <span>MIT 开源</span><span>·</span><span>Vite + Vanilla</span><span>·</span><span>GSAP · Lenis</span><span>·</span><span>适配 Pages</span>
+        <span>24 FPS</span><span>·</span><span>8 CINEMATIC TRANSITIONS</span><span>·</span><span>6 SHOTS</span>
       </div>
     </div>
     <div class="cta-bg-text">STORYBOARD</div>
@@ -514,7 +401,7 @@ jobs:
   <footer class="footer">
     <div class="footer-inner">
       <div>© 2026 STORYBOARD — Crafted like PR &amp; AE, inspired by Instagram.</div>
-      <div>Pages → Actions → Pages · 自动部署已就绪</div>
+      <div>THE END · REPLAY WHEN READY</div>
     </div>
   </footer>
 

@@ -196,7 +196,7 @@ document.getElementById('ctaPlay')?.addEventListener('click',()=>{
 });
 
 // 导航锚点:接入 Lenis 平滑滚动(避免原生 jump 与 Lenis 状态脱节)
-document.querySelectorAll('.nav-links a').forEach(a=>{
+document.querySelectorAll('.nav-links a, .cta a[href^="#"]').forEach(a=>{
   a.addEventListener('click', e=>{
     const href = a.getAttribute('href');
     if(href && href.startsWith('#') && lenis){
@@ -206,15 +206,6 @@ document.querySelectorAll('.nav-links a').forEach(a=>{
     }
   });
 });
-document.getElementById('ctaCopy')?.addEventListener('click', async()=>{
-  const cmd = `git clone https://github.com/xiaoqianran/web-011.git\ncd web-011\nnpm i\nnpm run dev\n# 推送到 main 即自动部署到 Pages`;
-  try{ await navigator.clipboard.writeText(cmd); }catch(e){}
-  const btn = document.getElementById('ctaCopy');
-  const old = btn.textContent;
-  btn.textContent = '已复制 ✓';
-  setTimeout(()=>btn.textContent=old, 1600);
-});
-
 // Lightbox for insta(带焦点管理)
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
